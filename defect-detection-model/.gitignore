@@ -1,0 +1,24 @@
+__pycache__
+.DS_Store
+env/
+.venv/
+.mypy_cache
+.pytest_cache
+*.ipynb_checkpoints/
+*.log
+
+# Common ML artifacts
+*.pt
+*.pth
+*.onnx
+*.pb
+*.h5
+*.ckpt
+*.pickle
+*.pkl
+*.tflite
+*.joblib
+
+# Results (keep placeholder)
+results/**
+!results/.gitkeep
