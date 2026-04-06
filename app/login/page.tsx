@@ -53,7 +53,7 @@ export default function LoginPage() {
         if (session.user.role === 'enduser') {
           router.push('/enduser');
         } else {
-          router.push('/');
+          router.push('/shop');
         }
       }
     };
@@ -124,18 +124,14 @@ export default function LoginPage() {
         toast.error('Invalid email or password');
         logger.auth('Login failed', formData.email, { error: result.error });
       } else {
-        // Get updated session to check user role
-        const session = await getSession();
-        
-        if (session?.user) {
-          toast.success(`Welcome back, ${session.user.name}!`);
-          
-          // Redirect based on user role
-          if (session.user.role === 'enduser') {
-            router.push('/enduser');
-          } else {
-            router.push('/');
-          }
+        // Use selectedRole for redirect — avoids getSession() cookie timing
+        // issues in serverless/Vercel environments where cookie may not
+        // be visible to getSession() immediately after signIn()
+        toast.success('Welcome back!');
+        if (selectedRole === 'enduser') {
+          router.push('/enduser');
+        } else {
+          router.push('/shop');
         }
       }
     } catch (error) {
