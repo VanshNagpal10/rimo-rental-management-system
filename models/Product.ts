@@ -27,9 +27,11 @@ const ProductSchema: Schema<IProduct> = new Schema(
       default: '/placeholder-product.jpg',
       validate: {
         validator: function (v: string) {
-          // Allow empty string, placeholder, or valid image paths/URLs
-          if (!v || v === '/placeholder-product.jpg') return true;
-          return /^(https?:\/\/)?.+\.(jpg|jpeg|png|gif|webp)$/i.test(v) || v.startsWith('/') || v.startsWith('data:image/');
+          // Accept any non-empty string (URL, relative path, or base64 data URI)
+          // Avoid complex regex on potentially large base64 strings
+          if (!v) return true; // Allow empty (will use default)
+          if (typeof v !== 'string') return false;
+          return v.length > 0;
         },
         message: 'Please provide a valid image URL or path',
       },
